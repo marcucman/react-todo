@@ -10,7 +10,7 @@ var TodoList = React.createClass({
         return (
           // each individual component needs a unique key prop
           // {...} is SPREAD OPERATOR which passes the values within each todo object as props
-          <Todo key={todo.id} {...todo}/>
+          <Todo key={todo.id} {...todo} onToggle={this.props.onToggle}/>
         )
       });
     };
