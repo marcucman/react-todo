@@ -1,37 +1,22 @@
-var React = require('react');
-var TodoList = require('TodoList');
+var React = require('react'); // 3RD PARTY MODULES
+var uuid = require('node-uuid');
+
+var TodoList = require('TodoList'); // DEVELOPED MODULES
 var AddTodo = require('AddTodo');
 var TodoSearch = require('TodoSearch');
-var uuid = require('node-uuid');
+var TodoAPI = require('TodoAPI');
+
 
 var TodoApp = React.createClass({
   getInitialState: function () {
     return {
       showCompleted: false, // show only uncompleted
       searchText: '', // return all Todo items
-      todos: [
-        {
-          id: uuid(),
-          text: "walk dog",
-          completed: false
-        },
-        {
-          id: uuid(),
-          text: "call person",
-          completed: true
-        },
-        {
-          id: uuid(),
-          text: "eat food",
-          completed: false
-        },
-        {
-          id: uuid(),
-          text: "sleep eventually",
-          completed: false
-        }
-      ]
-    }
+      todos: TodoAPI.getTodos() // use localStorage API to get todos
+    };
+  },
+  componentDidUpdate: function () {
+    TodoAPI.setTodos(this.state.todos); // save todos using localStage API
   },
   handleAddTodo: function (text) {
     this.setState({

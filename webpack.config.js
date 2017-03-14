@@ -24,7 +24,8 @@ module.exports = {
     root: __dirname,
     modulesDirectories: [
       'node_modules',
-      './app/components' // by doing this, you don't need to list aliases
+      './app/components', // by doing this, you don't need to list aliases
+      './app/api/' // api folder for setting, retrieving data
     ],
     alias: {
       applicationStyles: 'app/styles/app.scss'
