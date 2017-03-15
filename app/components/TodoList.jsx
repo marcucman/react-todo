@@ -5,6 +5,11 @@ var TodoList = React.createClass({
   render: function () {
     var {todos} = this.props;
     var renderTodos = () => {
+      if (todos.length === 0) {
+        return (
+          <p className="container__message">Nothing to do</p>
+        )
+      }
       // render JSX code for every element in the array using .map()
       return todos.map((todo) => {
         return (

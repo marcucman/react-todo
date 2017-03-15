@@ -4,3 +4,8 @@
 @import "base/foundation-settings";
 @import "foundation";
 @include foundation-everything; // include foundation library
+
+// COMPONENTS
+@import "components/container";
+@import "components/page-title";
+@import "components/todo";
