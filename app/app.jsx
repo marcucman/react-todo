@@ -12,9 +12,9 @@ store.subscribe(() => {
   console.log('New state', store.getState());
 });
 
-store.dispatch(actions.addTodo('Clean the yard'));
-store.dispatch(actions.setSearchText('yard'));
-store.dispatch(actions.toggleShowCompleted());
+// store.dispatch(actions.addTodo('Clean the yard'));
+// store.dispatch(actions.setSearchText('yard'));
+// store.dispatch(actions.toggleShowCompleted());
 
 // Load foundation, not needed after including sassLoader to webpack.config.js
 // require('style!css!foundation-sites/dist/foundation.min.css'); // use style-loader and css-loader module
