@@ -28,7 +28,8 @@ module.exports = {
       './app/api/' // api folder for setting, retrieving data
     ],
     alias: {
-      applicationStyles: 'app/styles/app.scss'
+      applicationStyles: 'app/styles/app.scss',
+      actions: 'app/actions/actions.jsx'
     },
     extensions: ['', '.js', '.jsx'] // all the types of files to include
   },
