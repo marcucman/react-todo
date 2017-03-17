@@ -1,7 +1,9 @@
 var React = require('react');
-var Todo = require('Todo');
+var {connect} = require('react-redux'); // can now access state properties and dispatch methods
+import Todo from 'Todo';
+// var Todo = require('Todo');
 
-var TodoList = React.createClass({
+export var TodoList = React.createClass({
   render: function () {
     var {todos} = this.props;
     var renderTodos = () => {
@@ -15,7 +17,7 @@ var TodoList = React.createClass({
         return (
           // each individual component needs a unique key prop
           // {...} is SPREAD OPERATOR which passes the values within each todo object as props
-          <Todo key={todo.id} {...todo} onToggle={this.props.onToggle}/>
+          <Todo key={todo.id} {...todo}/>
         )
       });
     };
@@ -28,4 +30,12 @@ var TodoList = React.createClass({
   }
 });
 
-module.exports = TodoList;
+// TodoList component can now request data as it likes
+export default connect(
+  (state) => {
+    return { // return what you need from the state
+      // set the todos prop as the todos from the state
+      todos: state.todos // todos gets set on the props for the component
+    }
+  }
+)(TodoList);

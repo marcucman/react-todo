@@ -1,9 +1,13 @@
 var React = require('react');
+var {connect} = require('react-redux'); // connect child component to Provider so it can access store
 var moment = require('moment');
+var actions = require('actions'); // load in actions module
 
-var Todo = React.createClass({
+// this export will be used for tests
+export var Todo = React.createClass({
   render: function () {
-    var {id, text, completed, createdAt, completedAt} = this.props;
+    // dispatch is now available as a prop because of connect
+    var {id, text, completed, createdAt, completedAt, dispatch} = this.props;
     var todoClassName = completed ? 'todo todo-completed' : 'todo';
     var renderDate = () => {
       var message = 'Created ';
@@ -18,7 +22,8 @@ var Todo = React.createClass({
     };
     return (
       <div className={todoClassName} onClick={() => {
-          this.props.onToggle(id)
+          // this.props.onToggle(id)
+          dispatch(actions.toggleTodo(id)); // dispatch method from state
         }}>
         <div>
           <input type="checkbox" checked={completed}/>
@@ -32,4 +37,8 @@ var Todo = React.createClass({
   }
 });
 
-module.exports = Todo;
+// connect Todo component to store
+// module.exports = connect()(Todo);
+
+// this is the new way to export the component
+export default connect()(Todo); // this expects a store to exist
