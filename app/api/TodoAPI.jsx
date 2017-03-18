@@ -1,35 +1,31 @@
 var $ = require('jquery');
 
-// this will fetch items from localStorage
+// FUNCTIONS TO BE USED ELSEWHERE
 module.exports = {
+  // LOCAL STORAGE MANAGEMENT
+  // *******************************************
+  // SET TODOS (ARRAY todos) saves todos in localStorage and RETURNS ARRAY todos
   setTodos: function(todos) {
-    if ($.isArray(todos)) {
-      // convert todos array to a string
-      localStorage.setItem('todos', JSON.stringify(todos));
+    if ($.isArray(todos)) { // check that it is an array
+      localStorage.setItem('todos', JSON.stringify(todos)); // convert todos array to a string
       return todos;
     }
   },
+  // GET TODOS () RETURNS ARRAY todos
   getTodos: function () {
     var stringTodos = localStorage.getItem('todos'); // returns a string
-    var todos = [];
+    var todos = []; // empty array to store parsed JSON
 
-    // convert string to array
-    try {
-      // set todos to a new array
+    try { // convert string to array
       todos = JSON.parse(stringTodos);
     } catch (e) {
-
+      console.log(e);
     }
 
-    // // if todos is an object, you don't want to return it
-    // if ($.isArray(todos)) {
-    //   return todos;
-    // } else {
-    //   return [];
-    // }
-    // this does the same as above but it more concise
+    // ensure that todos is an array
     return $.isArray(todos) ? todos : []; // return the array if true, return a blank array if false
   },
+  // FILTER TODOS (ARRAY todos, BOOLEAN showCompleted, STRING searchText) RETURN ARRAY filteredTodos
   filterTodos: function (todos, showCompleted, searchText) {
     var filteredTodos = todos;
 
@@ -39,21 +35,11 @@ module.exports = {
       return !todo.completed || showCompleted;
     });
 
-    // // Filter by searchText
-    // if (searchText.length > 0) {
-    //   var searchText = searchText.toLowerCase();
-    //   filteredTodos = filteredTodos.filter((todo) => {
-    //     return todo.text.indexOf(searchText) >= 0;
-    //   });
-    // }
-
+    // Filter by searchText
     filteredTodos = filteredTodos.filter((todo) => {
-      var text = todo.text.toLowerCase();
+      var text = todo.text.toLowerCase(); // get lowercased text for each todo
 
-      // if (searchText.length > 0) { // not needed, since .toLowerCase() is done in TodoApp
-      //   searchText = searchText.toLowerCase();
-      // }
-
+      // return every todo is no searchText, or only todos with text that match searchText
       return searchText.length === 0 || text.indexOf(searchText) > -1;
     });
 

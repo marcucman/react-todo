@@ -25,4 +25,3 @@ module.exports = function (config) {
     }
   });
 };
-// THIS IS INSANE

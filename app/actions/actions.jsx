@@ -1,3 +1,6 @@
+// ACTIONS
+// *******************************************
+// SET SEARCH TEXT (STRING searchText)
 export var setSearchText = (searchText) => {
   return {
     type: 'SET_SEARCH_TEXT',
@@ -5,12 +8,14 @@ export var setSearchText = (searchText) => {
   }
 };
 
+// TOGGLE SHOW COMPLETED ()
 export var toggleShowCompleted = () => {
   return {
     type: 'TOGGLE_SHOW_COMPLETED'
   }
 };
 
+// ADD TO_DO (STRING text)
 export var addTodo = (text) => {
   return {
     type: 'ADD_TODO',
@@ -18,6 +23,7 @@ export var addTodo = (text) => {
   }
 };
 
+// ADD TO_DO_S (ARRAY todos)
 export var addTodos = (todos) => {
   return {
     type: 'ADD_TODOS',
@@ -25,6 +31,7 @@ export var addTodos = (todos) => {
   }
 };
 
+// TOGGLE TO_DO (STRING id)
 export var toggleTodo = (id) => {
   return {
     type: 'TOGGLE_TODO',

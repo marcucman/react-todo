@@ -4,8 +4,7 @@ var expect = require('expect');
 var $ = require('jQuery');
 var TestUtils = require('react-addons-test-utils');
 
-// var Todo = require('Todo'); // this would import the default at the bottom of the Todo file
-var {Todo} = require('Todo'); // new way to import the Todo component. returns the export at the top of the Todo file
+var {Todo} = require('Todo'); // require using export var
 
 describe('Todo', () => {
   it('should exist', () => {

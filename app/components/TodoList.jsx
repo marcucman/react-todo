@@ -1,28 +1,29 @@
 var React = require('react');
-var {connect} = require('react-redux'); // can now access state properties and dispatch methods
+var {connect} = require('react-redux'); // REDUX
 import Todo from 'Todo';
-// var Todo = require('Todo');
 var TodoAPI = require('TodoAPI');
 
-export var TodoList = React.createClass({
+export var TodoList = React.createClass({ // export for tests
+
+  // RENDER FUNCTION
   render: function () {
-    var {todos, showCompleted, searchText} = this.props;
+    var {todos, showCompleted, searchText} = this.props; // destructure props
     var renderTodos = () => {
-      if (todos.length === 0) {
+      if (todos.length === 0) { // if no todos
         return (
           <p className="container__message">Nothing to do</p>
         )
+      } else {
+        return TodoAPI.filterTodos(todos, showCompleted, searchText).map((todo) => {
+          return (
+            // each individual component needs a unique key prop
+            <Todo key={todo.id} {...todo}/> // SPREAD OPERATOR passes key / values as props
+          )
+        });
       }
-      // render JSX code for every element in the array using .map()
-      return TodoAPI.filterTodos(todos, showCompleted, searchText).map((todo) => {
-        return (
-          // each individual component needs a unique key prop
-          // {...} is SPREAD OPERATOR which passes the values within each todo object as props
-          <Todo key={todo.id} {...todo}/>
-        )
-      });
     };
 
+    // PRESENTATION
     return (
       <div>
         {renderTodos()}
@@ -31,13 +32,10 @@ export var TodoList = React.createClass({
   }
 });
 
-// TodoList component can now request data as it likes
-export default connect(
-  (state) => {
-    // return { // return what you need from the state
-    //   // set the todos prop as the todos from the state
-    //   todos: state.todos // todos gets set on the props for the component
-    // }
+export default connect( // connect to redux action dispatcher
+  (state) => { // access state. you can return whole state or subdocuments within state
     return state; // give access to everything in the state tree
+    // // set the todos prop as the todos from the state
+    // todos: state.todos // todos gets set on the props for the component
   }
 )(TodoList);

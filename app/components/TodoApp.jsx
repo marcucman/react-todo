@@ -2,16 +2,16 @@ var React = require('react'); // 3RD PARTY MODULES
 var uuid = require('node-uuid');
 var moment = require('moment');
 
- // DEVELOPED MODULES
-import TodoList from 'TodoList';
+import TodoList from 'TodoList';  // DEVELOPED MODULES
 import AddTodo from 'AddTodo';
 import TodoSearch from 'TodoSearch';
 
-// render components who know how to render themselves thanks to redux
 var TodoApp = React.createClass({
 
+  // RENDER FUNCTION
   render: function () {
 
+    // PRESENTATION
     return (
       <div>
         <h1 className="page-title">Todo App</h1>
@@ -27,9 +27,7 @@ var TodoApp = React.createClass({
         </div>
       </div>
     )
-
   }
-
 });
 
 module.exports = TodoApp;

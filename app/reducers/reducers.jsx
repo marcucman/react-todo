@@ -1,6 +1,9 @@
 var uuid = require('node-uuid');
 var moment = require('moment');
 
+// REDUCERS handle ACTIONS
+
+// searchText
 export var searchTextReducer = (state = '', action) => {
     switch (action.type) {
         case 'SET_SEARCH_TEXT':
@@ -10,6 +13,7 @@ export var searchTextReducer = (state = '', action) => {
     }
 };
 
+// showCompleted
 export var showCompletedReducer = (state = false, action) => {
     switch (action.type) {
         case 'TOGGLE_SHOW_COMPLETED':
@@ -19,6 +23,7 @@ export var showCompletedReducer = (state = false, action) => {
     }
 };
 
+// todos
 export var todosReducer = (state = [], action) => {
     switch (action.type) {
         case 'ADD_TODO':
@@ -39,9 +44,9 @@ export var todosReducer = (state = [], action) => {
                   ...todo,
                   completed: !todo.completed,
                   completedAt: !todo.completed ? moment().unix() : undefined
-                }
+                };
               } else { // all the other todos
-                return {...todo};
+                return {...todo}; // OR return todo;
               }
             });
         case 'ADD_TODOS': // add an array of todos

@@ -1,24 +1,25 @@
 var React = require('react');
-var {connect} = require('react-redux');
+var {connect} = require('react-redux'); // REDUX
 var actions = require('actions');
 
-export var TodoSearch = React.createClass({
+export var TodoSearch = React.createClass({ // export for tests
+  // RENDER FUNCTION
   render: function () {
-    // actions to be brought in through props
-    var {dispatch, showCompleted, searchText} = this.props;
+    var {dispatch, showCompleted, searchText} = this.props; // bring in action dispatcher through props
 
+    // PRESENTATION
     return (
       <div className="container__header">
         <div>
-          <input type="search" ref="searchText" placeholder="Search todos" value={searchText} onChange={() => {
+          <input type="search" ref="searchText" placeholder="Search todos" value={searchText} onChange={ () => {
             var searchText = this.refs.searchText.value;
-            dispatch(actions.setSearchText(searchText));
+            dispatch(actions.setSearchText(searchText)); // dispatch action for setting searchText
           }}/>
         </div>
         <div>
           <label>
-            <input type="checkbox" ref="showCompleted" checked={showCompleted} onChange={() => {
-              dispatch(actions.toggleShowCompleted());
+            <input type="checkbox" ref="showCompleted" checked={showCompleted} onChange={ () => {
+              dispatch(actions.toggleShowCompleted()); // dispatch action to toggle showCompleted
             }}/>
             Show completed todos
           </label>
@@ -28,10 +29,9 @@ export var TodoSearch = React.createClass({
   }
 });
 
-// module.exports = TodoSearch;
-export default connect(
+export default connect( // export for app
   (state) => {
-    return {
+    return { // connect only to parts of state needed
       showCompleted: state.showCompleted,
       searchText: state.searchText
     }

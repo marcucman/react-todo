@@ -1,6 +1,8 @@
 import { combineReducers, createStore, compose } from 'redux';
 import { searchTextReducer, showCompletedReducer, todosReducer } from 'reducers';
 
+// CONFIGURE attaches STATES to REDUCERS
+
 export const configure = (initialState = {}) => {
     const reducer = combineReducers({
         searchText: searchTextReducer,

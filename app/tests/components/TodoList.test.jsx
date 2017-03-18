@@ -5,11 +5,9 @@ var expect = require('expect');
 var $ = require('jQuery');
 var TestUtils = require('react-addons-test-utils');
 
-import {configure} from 'configureStore';
-// var TodoList = require('TodoList');
-import ConnectedTodoList, {TodoList} from 'TodoList'; // default from connect function
+import {configure} from 'configureStore'; // require using export var
+import ConnectedTodoList, {TodoList} from 'TodoList';
 import ConnectedTodo, {Todo} from 'Todo';
-// var Todo = require('Todo');
 
 describe('TodoList', () => {
   it('should exist', () => {
@@ -39,9 +37,7 @@ describe('TodoList', () => {
       </Provider>
     );
     var todoList = TestUtils.scryRenderedComponentsWithType(provider, ConnectedTodoList)[0]; // get TodoList from provider
-    // var todoList = TestUtils.renderIntoDocument(<TodoList todos={todos}/>);
-    // check how many Todos were rendered in the TodoList component
-    var todosComponents = TestUtils.scryRenderedComponentsWithType(todoList, ConnectedTodo);
+    var todosComponents = TestUtils.scryRenderedComponentsWithType(todoList, ConnectedTodo); // check how many Todos were rendered in the TodoList component
 
     expect(todosComponents.length).toBe(todos.length);
   });
@@ -49,7 +45,6 @@ describe('TodoList', () => {
   it('should render empty message if no todos', () => {
     var todos = [];
     var todoList = TestUtils.renderIntoDocument(<TodoList todos={todos}/>);
-
     var $el = $(ReactDOM.findDOMNode(todoList));
 
     expect($el.find('.container__message').length).toBe(1);3

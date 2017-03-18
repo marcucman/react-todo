@@ -8,7 +8,8 @@ var TodoAPI = require('TodoAPI');
 var actions = require('actions'); // REQUIRE REDUX FUNCTIONALITY
 var store = require('configureStore').configure();
 
-store.subscribe(() => {
+// STORE SUBSCRIBE
+store.subscribe(() => { // have the store listen for action dispatchers
   var state = store.getState();
   console.log('New state', state);
 
@@ -19,19 +20,14 @@ store.subscribe(() => {
 var initialTodos = TodoAPI.getTodos(); // fetch todos array from localStorage
 store.dispatch(actions.addTodos(initialTodos)); // add array of todos to state
 
-// store.dispatch(actions.addTodo('Clean the yard'));
-// store.dispatch(actions.setSearchText('yard'));
-// store.dispatch(actions.toggleShowCompleted());
-
-// Load foundation, not needed after including sassLoader to webpack.config.js
-// require('style!css!foundation-sites/dist/foundation.min.css'); // use style-loader and css-loader module
+// Foundation loaded after including sassLoader to webpack.config.js so you don't need require('style!css!foundation-sites/dist/foundation.min.css'); // use style-loader and css-loader module
 $(document).foundation(); // attach foundation to document
 
 // app css
 require('style!css!sass!applicationStyles');
 
+// every child element of a parent element wrapped in <Provider> has access to its store
 ReactDOM.render(
-  // every child element of a parent element wrapped in <Provider> has access to its store
   <Provider store={store}>
     <TodoApp/>
   </Provider>,
