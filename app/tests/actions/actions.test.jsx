@@ -1,5 +1,11 @@
 var expect = require('expect');
+import configureMockStore from 'redux-mock-store'; // for testing async store using firebase
+import thunk from 'redux-thunk'; // actions expect thunk to be available
+
 var actions = require('actions');
+
+// create a mock store for tests
+var createMockStore = configureMockStore([thunk]);
 
 describe('Actions', () => {
   it('should generate search text action', () => {
@@ -16,9 +22,14 @@ describe('Actions', () => {
   it('should generate add todo action', () => {
     var action = {
       type: 'ADD_TODO',
-      text: 'Thing to do'
+      todo: {
+        id: '234sfsf',
+        text: 'test stuff',
+        completed: false,
+        createdAt: 0
+      }
     };
-    var res = actions.addTodo(action.text);
+    var res = actions.addTodo(action.todo); // specifically pass the todo object
 
     expect(res).toEqual(action);
   });
@@ -57,5 +68,22 @@ describe('Actions', () => {
     var res = actions.toggleTodo(action.id);
 
     expect(res).toEqual(action);
+  });
+
+  it('should create todo and dispatch ADD_TODO', (done) => { // done signifies asynchronous
+    const store = createMockStore({}); // empty store
+    const todoText = 'My todo item';
+
+    store.dispatch(actions.startAddTodo(todoText)).then( () => {
+      const actions = store.getActions(); // returns array of all actions fired on mockStore
+      expect(actions[0]).toInclude({
+        type: 'ADD_TODO'
+      });
+      expect(actions[0].todo).toInclude({
+        text: todoText
+      });
+      done(); // if you forget this, the test will return 'test timed out'
+    }).catch(done);
+
   });
 });

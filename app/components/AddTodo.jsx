@@ -12,7 +12,7 @@ export var AddTodo = React.createClass({ // export used for tests
 
     if (newTodo.length > 0) { // if there is text
       this.refs.newTodo.value = ''; // clear the input
-      dispatch(actions.addTodo(newTodo)); // use action dispatch to add todo to state
+      dispatch(actions.startAddTodo(newTodo)); // use firebase action dispatch to add todo to state
     } else {
       this.refs.newTodo.focus(); // place attention in text box
     }

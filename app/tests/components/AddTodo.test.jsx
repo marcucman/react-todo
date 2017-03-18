@@ -4,6 +4,7 @@ var expect = require('expect');
 var $ = require('jQuery');
 var TestUtils = require('react-addons-test-utils');
 
+import * as actions from 'actions'; // bring in all the actions, refer to them as 'actions'
 var {AddTodo} = require('AddTodo'); // require using export var
 
 describe('AddTodo', () => {
@@ -13,10 +14,8 @@ describe('AddTodo', () => {
 
   it('should dispatch ADD_TODO when valid text', () => {
     var todoText = 'Deliver mail';
-    var action = {
-      type: 'ADD_TODO',
-      text: todoText
-    };
+    var action = actions.startAddTodo(todoText);
+
     var spy = expect.createSpy();
     var addTodo = TestUtils.renderIntoDocument(<AddTodo dispatch={spy}/>);
     var $el = $(ReactDOM.findDOMNode(addTodo));

@@ -1,3 +1,6 @@
+import firebase, {firebaseRef} from 'app/firebase/'; // filename can be left off since it is index.js
+import moment from 'moment';
+
 // ACTIONS
 // *******************************************
 // SET SEARCH TEXT (STRING searchText)
@@ -15,11 +18,31 @@ export var toggleShowCompleted = () => {
   }
 };
 
-// ADD TO_DO (STRING text)
-export var addTodo = (text) => {
+// ADD TO_DO (OBJECT)
+export var addTodo = (todo) => {
   return {
     type: 'ADD_TODO',
-    text
+    todo
+  }
+};
+
+// START ADD TO_DO
+export var startAddTodo = (text) => {
+  return (dispatch, getState) => { // dispatch will let you fire action after data gets saved
+    var todo = {
+      text,
+      completed: false,
+      createdAt: moment().unix(), // timestamp
+      completedAt: null
+    };
+    var todoRef = firebaseRef.child('todos').push(todo); // push data to firebase
+
+    return todoRef.then( () => { // when firebase has completed adding todo ...
+      dispatch(addTodo({ // rerender component with new todo from firebase to browser
+        ...todo,
+        id: todoRef.key
+      }));
+    });
   }
 };
 

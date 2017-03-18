@@ -8,6 +8,8 @@ var TodoAPI = require('TodoAPI');
 var actions = require('actions'); // REQUIRE REDUX FUNCTIONALITY
 var store = require('configureStore').configure();
 
+// import './../playground/firebase/index';
+
 // STORE SUBSCRIBE
 store.subscribe(() => { // have the store listen for action dispatchers
   var state = store.getState();
