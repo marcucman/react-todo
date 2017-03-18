@@ -1,16 +1,23 @@
-var React = require('react');
+var React = require('react'); // NPM MODULES
 var ReactDOM = require('react-dom');
 var {Provider} = require('react-redux');
 var {Route, Router, IndexRoute, hashHistory} = require('react-router');
-var TodoApp = require('TodoApp');
 
-// REQUIRE REDUX FUNCTIONALITY
-var actions = require('actions');
+var TodoApp = require('TodoApp'); // DEVELOPED MODULES
+var TodoAPI = require('TodoAPI');
+var actions = require('actions'); // REQUIRE REDUX FUNCTIONALITY
 var store = require('configureStore').configure();
 
 store.subscribe(() => {
-  console.log('New state', store.getState());
+  var state = store.getState();
+  console.log('New state', state);
+
+  TodoAPI.setTodos(state.todos); // with this, you can store todos in localStorage and this will allow you to set those todos in your state
 });
+
+// INITIALIZE APP WITH DATA from localStorage
+var initialTodos = TodoAPI.getTodos(); // fetch todos array from localStorage
+store.dispatch(actions.addTodos(initialTodos)); // add array of todos to state
 
 // store.dispatch(actions.addTodo('Clean the yard'));
 // store.dispatch(actions.setSearchText('yard'));
