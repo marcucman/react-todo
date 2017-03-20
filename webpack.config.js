@@ -1,6 +1,9 @@
 var webpack = require('webpack');
 var path = require('path');
 
+// process avaiable through node
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
 module.exports = {
   entry: [
     'script!jquery/dist/jquery.min.js', // use script-loader npm module
@@ -14,6 +17,11 @@ module.exports = {
     new webpack.ProvidePlugin({ // key = variable name to watch for, value = module to replace with
       '$': 'jquery',
       'jQuery': 'jquery'
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: false // make warnings go away when running 'NODE_ENV=production webpack -p' in terminal
+      }
     })
   ],
   output: {
@@ -53,5 +61,5 @@ module.exports = {
       path.resolve(__dirname, './node_modules/foundation-sites/scss') // make sassLoader aware of this directory
     ]
   },
-  devtool: 'inline-source-map'
+  devtool: process.env.NODE_ENV === 'production' ? undefined : 'inline-source-map' // only use source map in production
 };
