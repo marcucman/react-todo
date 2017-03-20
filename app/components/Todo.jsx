@@ -23,7 +23,7 @@ export var Todo = React.createClass({ // export used for tests
     // PRESENTATION
     return (
       <div className={todoClassName} onClick={() => {
-          dispatch(actions.toggleTodo(id)); // dispatch action from state
+          dispatch(actions.startToggleTodo(id, !completed)); // dispatch firebase action from state
         }}>
         <div>
           <input type="checkbox" checked={completed}/>

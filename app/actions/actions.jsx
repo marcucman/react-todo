@@ -26,7 +26,7 @@ export var addTodo = (todo) => {
   }
 };
 
-// START ADD TO_DO
+// START ADD TO_DO --ASYNC
 export var startAddTodo = (text) => {
   return (dispatch, getState) => { // dispatch will let you fire action after data gets saved
     var todo = {
@@ -54,10 +54,28 @@ export var addTodos = (todos) => {
   }
 };
 
-// TOGGLE TO_DO (STRING id)
-export var toggleTodo = (id) => {
+// UPDATE TO_DO (STRING id, OBJECT updates)
+export var updateTodo = (id, updates) => {
   return {
-    type: 'TOGGLE_TODO',
-    id
+    type: 'UPDATE_TODO',
+    id,
+    updates
   }
 };
+
+// START TOGGLE TO_DO --ASYNC
+export var startToggleTodo = (id, completed) => {
+  return (dispatch, getState) => {
+    // PREPARE UPDATE FIREBASE
+    var todoRef = firebaseRef.child(`todos/${id}`); // identify correct todo
+    var updates = { // set update object
+      completed, // set completed to the value passed from Todo.jsx
+      completedAt: completed ? moment().unix() : null
+    };
+
+    // UPDATE FIREBASE, THEN UPDATE STATE
+    return todoRef.update(updates).then( () => { // return the promise so you can chain onto it in tests
+      dispatch(updateTodo(id, updates)); // update the todo in the state
+    });
+  }
+}

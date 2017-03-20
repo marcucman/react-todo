@@ -31,16 +31,15 @@ export var todosReducer = (state = [], action) => {
               ...state,
               action.todo // new todo content received from action
             ];
-        case 'TOGGLE_TODO':
+        case 'UPDATE_TODO':
             return state.map((todo) => {
               if (todo.id === action.id) { // the todo being searched for
                 return {
                   ...todo,
-                  completed: !todo.completed,
-                  completedAt: !todo.completed ? moment().unix() : undefined
+                  ...action.updates // everything in this will override that from ...todo
                 };
               } else { // all the other todos
-                return {...todo}; // OR return todo;
+                return todo; // OR return todo;
               }
             });
         case 'ADD_TODOS': // add an array of todos

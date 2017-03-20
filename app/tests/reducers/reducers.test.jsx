@@ -43,28 +43,28 @@ describe('Reducers', () => {
       expect(res[0]).toEqual(action.todo); // the reducer should just pass the 2nd argument through
     });
 
-    it('should toggle completed and assign completedAt a value for todo', () => {
+    it('should update todo', () => {
       var todos = [{
-        id: 1,
+        id: '123',
         text: "Do something",
         completed: false,
         createdAt: 44323,
         completedAt: undefined
-      }, {
-        id: 2,
-        text: "Do something else",
-        completed: true,
-        createdAt: 44753,
-        completedAt: 44834
       }];
+      var updates = {
+        completed: false,
+        completedAt: null
+      };
       var action = {
-        type: 'TOGGLE_TODO',
-        id: 1
+        type: 'UPDATE_TODO',
+        id: todos[0].id,
+        updates
       };
       var res = reducers.todosReducer(df(todos), df(action));
 
-      expect(res[0].completed).toEqual(true);
-      expect(res[0].completedAt).toNotEqual(undefined);
+      expect(res[0].completed).toEqual(updates.completed);
+      expect(res[0].completedAt).toEqual(updates.completedAt);
+      expect(res[0].text).toEqual(todos[0].text);
     });
 
     it('should add existing todos', () => {
