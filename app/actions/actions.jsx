@@ -54,6 +54,27 @@ export var addTodos = (todos) => {
   }
 };
 
+// START ADD TO_DO_S (ARRAY todos) --ASYNC
+export var startAddTodos = (todos) => {
+  return (dispatch, getState) => {
+    var todosRef = firebaseRef.child('todos'); // set reference
+
+    return todosRef.once('value').then( (snapshot) => {
+      var todos = snapshot.val() || {}; // the data returned from firebase
+      var parsedTodos = [];
+
+      Object.keys(todos).forEach( (todoId) => {
+        parsedTodos.push({
+          id: todoId,
+          ...todos[todoId] // grab the object whose key matches the todoId from above
+        });
+      });
+
+      dispatch(addTodos(parsedTodos)); // update redux store (which will rerender display)
+    });
+  }
+};
+
 // UPDATE TO_DO (STRING id, OBJECT updates)
 export var updateTodo = (id, updates) => {
   return {

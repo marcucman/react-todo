@@ -5,23 +5,25 @@ var TodoAPI = require('TodoAPI');
 
 export var TodoList = React.createClass({ // export for tests
 
-  // RENDER FUNCTION
-  render: function () {
-    var {todos, showCompleted, searchText} = this.props; // destructure props
-    var renderTodos = () => {
-      if (todos.length === 0) { // if no todos
-        return (
-          <p className="container__message">Nothing to do</p>
-        )
-      } else {
-        return TodoAPI.filterTodos(todos, showCompleted, searchText).map((todo) => {
+    // RENDER FUNCTION
+    render: function () {
+      var {todos, showCompleted, searchText} = this.props; // destructure props
+
+      var renderTodos = () => {
+        var filteredTodos = TodoAPI.filterTodos(todos, showCompleted, searchText); // filer todos
+
+        if (filteredTodos.length === 0) { // if no todos OR all todos are completed
           return (
-            // each individual component needs a unique key prop
-            <Todo key={todo.id} {...todo}/> // SPREAD OPERATOR passes key / values as props
+            <p className="container__message">Nothing to do</p>
           )
-        });
-      }
-    };
+        } else {
+          return filteredTodos.map((todo) => {
+            return ( // each individual component needs a unique key prop
+              <Todo key={todo.id} {...todo}/> // SPREAD OPERATOR passes key / values as props
+            )
+          });
+        }
+      };
 
     // PRESENTATION
     return (

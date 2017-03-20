@@ -10,17 +10,19 @@ var store = require('configureStore').configure();
 
 // import './../playground/firebase/index';
 
-// STORE SUBSCRIBE
-store.subscribe(() => { // have the store listen for action dispatchers
-  var state = store.getState();
-  console.log('New state', state);
+// // STORE SUBSCRIBE
+// store.subscribe(() => { // have the store listen for action dispatchers
+//   var state = store.getState();
+//   console.log('New state', state);
+//
+//   TodoAPI.setTodos(state.todos); // store todos from state into localStorage
+// });
 
-  TodoAPI.setTodos(state.todos); // with this, you can store todos in localStorage and this will allow you to set those todos in your state
-});
+// // INITIALIZE APP WITH DATA from localStorage
+// var initialTodos = TodoAPI.getTodos(); // fetch todos array from localStorage
+// store.dispatch(actions.addTodos(initialTodos)); // add array of todos to state
 
-// INITIALIZE APP WITH DATA from localStorage
-var initialTodos = TodoAPI.getTodos(); // fetch todos array from localStorage
-store.dispatch(actions.addTodos(initialTodos)); // add array of todos to state
+store.dispatch(actions.startAddTodos()); // fetch todos from firebase and add to store
 
 // Foundation loaded after including sassLoader to webpack.config.js so you don't need require('style!css!foundation-sites/dist/foundation.min.css'); // use style-loader and css-loader module
 $(document).foundation(); // attach foundation to document

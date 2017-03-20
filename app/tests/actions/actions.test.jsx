@@ -93,13 +93,19 @@ describe('Actions', () => {
     var testTodoRef;
 
     beforeEach( (done) => { // fired before every test case
-      testTodoRef = firebaseRef.child('todos').push(); // generate reference
+      var todosRef = firebaseRef.child('todos');
 
-      testTodoRef.set({
-        text: 'Something to do',
-        completed: false,
-        createdAt: 23443253
-      }).then( () =>  done() );
+      todosRef.remove().then( () => { // wipe all todo items
+        testTodoRef = firebaseRef.child('todos').push(); // generate reference
+
+        return testTodoRef.set({ // add todo
+          text: 'Something to do',
+          completed: false,
+          createdAt: 23443253
+        })
+      })
+      .then( () => done() ) // if success
+      .catch(done); // if error
     });
 
     afterEach( (done) => { // fired after every test case
@@ -127,5 +133,20 @@ describe('Actions', () => {
         done();
       }, done); // if done gets passed like this (without arguments), mocha assumes a failure and print
     });
+
+    it('should populate todos and dispatch ADD_TODOS', (done) => {
+      const store = createMockStore({}); // create a fake store
+      const action = actions.startAddTodos(); // return startAddTodos action
+
+      store.dispatch(action).then( () => {
+        const mockActions = store.getActions(); // returns array of all actions dispatched since store was created
+
+        expect(mockActions[0].type).toEqual('ADD_TODOS');
+        expect(mockActions[0].todos.length).toEqual(1);
+        expect(mockActions[0].todos[0].text).toEqual('Something to do');
+
+        done();
+      }, done);
+    })
   });
 });
