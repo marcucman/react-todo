@@ -72,6 +72,25 @@ describe('Actions', () => {
     expect(res).toEqual(action);
   });
 
+  it('should generate login action object', () => {
+    const action = {
+      type: 'LOGIN',
+      uid: '123abc'
+    };
+    const res = actions.login(action.uid);
+
+    expect(res).toEqual(action);
+  });
+
+  it('should generate logout action object', () => {
+    const action = {
+      type: 'LOGOUT'
+    };
+    const res = actions.logout();
+
+    expect(res).toEqual(action);
+  });
+
   it('should create todo and dispatch ADD_TODO', (done) => { // done signifies asynchronous
     const store = createMockStore({}); // empty store
     const todoText = 'My todo item';

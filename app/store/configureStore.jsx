@@ -2,7 +2,7 @@ import { combineReducers, createStore, compose } from 'redux';
 import * as redux from 'redux';
 import thunk from 'redux-thunk';
 
-import { searchTextReducer, showCompletedReducer, todosReducer } from 'reducers';
+import { searchTextReducer, showCompletedReducer, todosReducer, authReducer } from 'reducers';
 
 // CONFIGURE attaches STATES to REDUCERS
 
@@ -10,7 +10,8 @@ export const configure = (initialState = {}) => {
     const reducer = combineReducers({
         searchText: searchTextReducer,
         showCompleted: showCompletedReducer,
-        todos: todosReducer
+        todos: todosReducer,
+        auth: authReducer
     });
     const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
     const store = createStore(reducer, initialState, redux.applyMiddleware(thunk), composeEnhancers());

@@ -12,9 +12,13 @@ import router from 'app/router/'; // /index.jsx not required
 // HANDLE LOG IN / LOG OUT
 firebase.auth().onAuthStateChanged( (user) => { // gets called every time auth state changes
   if (user) { // user logged in
+    store.dispatch(actions.login(user.uid)); // log user in to store
     hashHistory.push('/todos'); // redirect to /todos
+    console.log(store.todos);
   } else { // user logged out
+    store.dispatch(actions.logout()); // log user out from store
     hashHistory.push('/'); // redirect to /
+    console.log(store);
   }
 });
 

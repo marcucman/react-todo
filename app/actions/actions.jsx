@@ -99,9 +99,24 @@ export var startToggleTodo = (id, completed) => {
       dispatch(updateTodo(id, updates)); // update the todo in the state
     });
   }
-}
+};
 
-// LOG IN USER
+// LOG IN
+export var login = (uid) => {
+  return {
+    type: 'LOGIN',
+    uid
+  }
+};
+
+// LOG OUT
+export var logout = () => {
+  return {
+    type: 'LOGOUT'
+  }
+};
+
+// LOG IN USER TO FIREBASE
 export var startLogin = () => {
   return (dispatch, getState) => {
     firebase.auth().signInWithPopup(githubProvider).then( (result) => { // success
@@ -111,7 +126,7 @@ export var startLogin = () => {
     });
   }
 };
-// LOG OUT USER
+// LOG OUT USER FROM FIREBASE
 export var startLogout = () => {
   return (dispatch, getState) => {
     return firebase.auth().signOut().then( () => { // success
