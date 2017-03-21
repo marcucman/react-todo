@@ -3,10 +3,10 @@ import firebase from 'firebase';
 try { // makes sure the initialize function only fires once, otherwise it would continue to do so
   // Initialize Firebase
   var config = {
-    apiKey: "AIzaSyDn5e4S-dgG5xxUzNMuEXaFvK-2WbLpL2o",
-    authDomain: "react-todo-app-eabcf.firebaseapp.com",
-    databaseURL: "https://react-todo-app-eabcf.firebaseio.com",
-    storageBucket: "react-todo-app-eabcf.appspot.com",
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    databaseURL: process.env.DATABASE_URL,
+    storageBucket: process.env.STORAGE_BUCKET,
     messagingSenderId: "143590545947"
   };
   firebase.initializeApp(config);
