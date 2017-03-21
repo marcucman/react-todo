@@ -104,6 +104,15 @@ export var startToggleTodo = (id, completed) => {
   }
 };
 
+// REMOVE TODOS () when user logs out
+export var removeTodos = () => {
+  return {
+    type: 'REMOVE_TODOS'
+  }
+}
+
+// HANDLE USER LOG IN
+// ************************************************
 // LOG IN
 export var login = (uid) => {
   return {
