@@ -14,5 +14,7 @@ try { // makes sure the initialize function only fires once, otherwise it would 
 
 }
 
+export var githubProvider = new firebase.auth.GithubAuthProvider(); // this will be used in actions to authenticate with github
+
 export var firebaseRef = firebase.database().ref(); // export DB connection
 export default firebase; // export the firebase module as well

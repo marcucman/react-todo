@@ -3,10 +3,11 @@ var ReactDOM = require('react-dom');
 var {Provider} = require('react-redux');
 var {Route, Router, IndexRoute, hashHistory} = require('react-router');
 
-var TodoApp = require('TodoApp'); // DEVELOPED MODULES
-var TodoAPI = require('TodoAPI');
+var TodoAPI = require('TodoAPI'); // DEVELOPED MODULES
 var actions = require('actions'); // REQUIRE REDUX FUNCTIONALITY
 var store = require('configureStore').configure();
+import Login from 'Login'; // since we're using export default
+import TodoApp from 'TodoApp';
 
 // import './../playground/firebase/index';
 
@@ -33,7 +34,12 @@ require('style!css!sass!applicationStyles');
 // every child element of a parent element wrapped in <Provider> has access to its store
 ReactDOM.render(
   <Provider store={store}>
-    <TodoApp/>
+    <Router history={hashHistory}>
+      <Route path="/">
+        <Route path="todos" component={TodoApp} />
+        <IndexRoute component={Login} />
+      </Route>
+    </Router>
   </Provider>,
   document.getElementById('app')
 );
