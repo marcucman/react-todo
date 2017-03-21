@@ -13,17 +13,13 @@ import router from 'app/router/'; // /index.jsx not required
 firebase.auth().onAuthStateChanged( (user) => { // gets called every time auth state changes
   if (user) { // user logged in
     store.dispatch(actions.login(user.uid)); // log user in to store
+    store.dispatch(actions.startAddTodos()); // fetch todos from firebase and add to store
     hashHistory.push('/todos'); // redirect to /todos
-    console.log(store.todos);
   } else { // user logged out
     store.dispatch(actions.logout()); // log user out from store
     hashHistory.push('/'); // redirect to /
-    console.log(store);
   }
 });
-
-// GET TODOS FROM FIREBASE
-store.dispatch(actions.startAddTodos()); // fetch todos from firebase and add to store
 
 // Foundation loaded after including sassLoader to webpack.config.js so you don't need require('style!css!foundation-sites/dist/foundation.min.css'); // use style-loader and css-loader module
 $(document).foundation(); // attach foundation to document

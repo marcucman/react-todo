@@ -35,7 +35,8 @@ export var startAddTodo = (text) => {
       createdAt: moment().unix(), // timestamp
       completedAt: null
     };
-    var todoRef = firebaseRef.child('todos').push(todo); // push data to firebase
+    var uid = getState().auth.uid; // get auth uid from state
+    var todoRef = firebaseRef.child(`users/${uid}/todos`).push(todo); // push data to firebase
 
     return todoRef.then( () => { // when firebase has completed adding todo ...
       dispatch(addTodo({ // rerender component with new todo from firebase to browser
@@ -57,7 +58,8 @@ export var addTodos = (todos) => {
 // START ADD TO_DO_S (ARRAY todos) --ASYNC
 export var startAddTodos = (todos) => {
   return (dispatch, getState) => {
-    var todosRef = firebaseRef.child('todos'); // set reference
+    var uid = getState().auth.uid; // get auth uid from state
+    var todosRef = firebaseRef.child(`users/${uid}/todos`); // set reference
 
     return todosRef.once('value').then( (snapshot) => {
       var todos = snapshot.val() || {}; // the data returned from firebase
@@ -88,7 +90,8 @@ export var updateTodo = (id, updates) => {
 export var startToggleTodo = (id, completed) => {
   return (dispatch, getState) => {
     // PREPARE UPDATE FIREBASE
-    var todoRef = firebaseRef.child(`todos/${id}`); // identify correct todo
+    var uid = getState().auth.uid; // get auth uid from state
+    var todoRef = firebaseRef.child(`users/${uid}/todos/${id}`); // identify correct todo
     var updates = { // set update object
       completed, // set completed to the value passed from Todo.jsx
       completedAt: completed ? moment().unix() : null
