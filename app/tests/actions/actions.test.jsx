@@ -91,48 +91,40 @@ describe('Actions', () => {
     expect(res).toEqual(action);
   });
 
-  it('should create todo and dispatch ADD_TODO', (done) => { // done signifies asynchronous
-    const store = createMockStore({}); // empty store
-    const todoText = 'My todo item';
 
-    store.dispatch(actions.startAddTodo(todoText)).then( () => {
-      const actions = store.getActions(); // returns array of all actions fired on mockStore
-      expect(actions[0]).toInclude({
-        type: 'ADD_TODO'
-      });
-      expect(actions[0].todo).toInclude({
-        text: todoText
-      });
-      done(); // if you forget this, the test will return 'test timed out'
-    }).catch(done);
-  });
 
   // LIFE CYCLE METHODS to run before and after tests
   describe('Tests with firebase todos', () => {
     var testTodoRef;
+    var uid;
+    var todosRef;
 
     beforeEach( (done) => { // fired before every test case
-      var todosRef = firebaseRef.child('todos');
 
-      todosRef.remove().then( () => { // wipe all todo items
-        testTodoRef = firebaseRef.child('todos').push(); // generate reference
+      firebase.auth().signInAnonymously().then( (user) => { // sign in anonymously
+        uid = user.uid; // get user id
+        todosRef = firebaseRef.child(`users/${uid}/todos`); // save todos path
+
+        return todosRef.remove(); // remove all existing todos
+      }).then( () => {
+        testTodoRef = todosRef.push(); // generate reference for new todo item
 
         return testTodoRef.set({ // add todo
           text: 'Something to do',
           completed: false,
           createdAt: 23443253
-        })
+        });
       })
       .then( () => done() ) // if success
       .catch(done); // if error
     });
 
     afterEach( (done) => { // fired after every test case
-      testTodoRef.remove().then( () => done() );
+      todosRef.remove().then( () => done() ); // delete everything
     });
 
     it('should toggle todo and dispatch UPDATE_TODO action', (done) => {
-      const store = createMockStore({});
+      const store = createMockStore({auth: {uid}});
       const action = actions.startToggleTodo(testTodoRef.key, true);
 
       store.dispatch(action).then( () => {
@@ -154,7 +146,7 @@ describe('Actions', () => {
     });
 
     it('should populate todos and dispatch ADD_TODOS', (done) => {
-      const store = createMockStore({}); // create a fake store
+      const store = createMockStore({auth: {uid}});// create a fake store
       const action = actions.startAddTodos(); // return startAddTodos action
 
       store.dispatch(action).then( () => {
@@ -166,6 +158,22 @@ describe('Actions', () => {
 
         done();
       }, done);
-    })
+    });
+
+    it('should create todo and dispatch ADD_TODO', (done) => { // done signifies asynchronous
+      const store = createMockStore({auth: {uid}});
+      const todoText = 'My todo item';
+
+      store.dispatch(actions.startAddTodo(todoText)).then( () => {
+        const actions = store.getActions(); // returns array of all actions fired on mockStore
+        expect(actions[0]).toInclude({
+          type: 'ADD_TODO'
+        });
+        expect(actions[0].todo).toInclude({
+          text: todoText
+        });
+        done(); // if you forget this, the test will return 'test timed out'
+      }).catch(done);
+    });
   });
 });
