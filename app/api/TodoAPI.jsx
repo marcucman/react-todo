@@ -2,7 +2,7 @@ var $ = require('jquery');
 
 // FUNCTIONS TO BE USED ELSEWHERE
 module.exports = {
-  
+
   // FILTER TODOS (ARRAY todos, BOOLEAN showCompleted, STRING searchText) RETURN ARRAY filteredTodos
   filterTodos: function (todos, showCompleted, searchText) {
     var filteredTodos = todos;
@@ -18,7 +18,7 @@ module.exports = {
       var text = todo.text.toLowerCase(); // get lowercased text for each todo
 
       // return every todo is no searchText, or only todos with text that match searchText
-      return searchText.length === 0 || text.indexOf(searchText) > -1;
+      return searchText.length === 0 || text.indexOf(searchText.toLowerCase()) > -1;
     });
 
     // Sort todos with non-completed first
