@@ -32,6 +32,7 @@ describe('Reducers', () => {
       var action = {
         type: 'ADD_TODO',
         todo: {
+          id: '123abc',
           text: 'Walk the dog',
           completed: false,
           createdAt: 43259493
